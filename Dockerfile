@@ -1,7 +1,10 @@
-FROM nginx:alpine
+FROM alpine:latest
 
-COPY godaddy-ddns.sh /home/
+WORKDIR /scripts
+
+COPY godaddy-ddns.sh ./
+
 RUN apk add --update bash curl jq  && \
-    chmod -x /home/godaddy-ddns.sh
+    chmod -x /scripts/godaddy-ddns.sh
 
 ENTRYPOINT ["/home/godaddy-ddns.sh"]
