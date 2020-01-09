@@ -7,4 +7,4 @@ COPY godaddy-ddns.sh ./
 RUN apk add --update bash curl jq  && \
     chmod -x /scripts/godaddy-ddns.sh
 
-ENTRYPOINT ["/home/godaddy-ddns.sh"]
+ENTRYPOINT ["/scripts/godaddy-ddns.sh"]
