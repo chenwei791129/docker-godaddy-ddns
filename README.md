@@ -1,5 +1,5 @@
 # docker-godaddy-ddns
 ddns godaddy on docker
 ```console
-$ docker run --rm awei/godaddy-ddns --key=<godaddy-api-key> --secret=<godaddy-api-secret> --domain=<your.domain> --record=@ --type=A --ttl=600
+$ docker run -d -e GODADDY_KEY=<godaddy-api-key> -e GODADDY_SECRET=<godaddy-api-secret> -e DOMAIN=<your.domain> -e NAME=@ -e TYPE=A -e TTL=600 awei/godaddy-ddns
 ```
