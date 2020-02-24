@@ -20,3 +20,8 @@ $ docker run -d -e GODADDY_KEY=<godaddy-api-key> -e GODADDY_SECRET=<godaddy-api-
 * `CHECK_URL` a url can return your ip (string,default: "http://whatismyip.akamai.com/")
 * `CRON_TIME` crontab job time (default: "*/5 * * * *")
 
+## Code Source
+- [GoDaddy.sh v1.0 by Nazar78 @ TeaNazaR.com](http://teanazar.com/2016/05/godaddy-ddns-updater/) Thanks Nazar78 for work :)
+
+## License
+The repository is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
