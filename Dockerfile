@@ -3,7 +3,6 @@ FROM alpine:latest
 ENV GODADDY_KEY= \
     GODADDY_SECRET= \
     DOMAIN= \
-    TYPE=A \
     NAME=@ \
     TTL=600 \
     CHECK_URL=http://whatismyip.akamai.com/ \
