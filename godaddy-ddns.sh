@@ -30,7 +30,7 @@ if [ "$(cat /tmp/current_ip 2>/dev/null)" != "${PublicIP}" ];then
   echo -n "Checking '${DOMAIN}' IP records from 'GoDaddy'..."
   Check=$(curl -kLsH"Authorization: sso-key ${GODADDY_KEY}:${GODADDY_SECRET}" \
   -H"Content-type: application/json" \
-  https://api.godaddy.com/v1/domains/${DOMAIN}/records/${TYPE}/${NAME} \
+  https://api.godaddy.com/v1/domains/${DOMAIN}/records/A/${NAME} \
   2>/dev/null|jq -r '.[0].data'>/dev/null)
   if [ $? -eq 0 ] && [ "${Check}" = "${PublicIP}" ];then
     echo -n ${Check}>/tmp/current_ip
@@ -39,7 +39,7 @@ if [ "$(cat /tmp/current_ip 2>/dev/null)" != "${PublicIP}" ];then
     echo -en "changed!\nUpdating '${DOMAIN}'..."
     Update=$(curl -kLsXPUT -H"Authorization: sso-key ${GODADDY_KEY}:${GODADDY_SECRET}" \
     -H"Content-type: application/json" \
-    https://api.godaddy.com/v1/domains/${DOMAIN}/records/${TYPE}/${NAME} \
+    https://api.godaddy.com/v1/domains/${DOMAIN}/records/A/${NAME} \
     -d "[{\"data\":\"${PublicIP}\",\"ttl\":${TTL}}]" 2>/dev/null)
     if [ $? -eq 0 ] && [ "${Update}" = "" ];then
       echo -n ${PublicIP}>/tmp/current_ip
