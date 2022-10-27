@@ -1,4 +1,5 @@
-FROM alpine:latest
+ARG BASE_IMAGE=alpine
+FROM ${BASE_IMAGE}:3.16.2
 
 ENV GODADDY_KEY= \
     GODADDY_SECRET= \
