@@ -16,7 +16,7 @@ WORKDIR /scripts
 
 COPY godaddy-ddns.sh /scripts
 
-RUN apk add --update bash curl jq  && \
+RUN apk add --update curl && \
     chmod +x /scripts/godaddy-ddns.sh
 
-CMD echo "${CRON_TIME} /scripts/godaddy-ddns.sh" >> /etc/crontabs/root && crond -f -L 2
+CMD echo "${CRON_TIME} /scripts/godaddy-ddns.sh" >> /etc/crontabs/root && crond -f -L /dev/null
