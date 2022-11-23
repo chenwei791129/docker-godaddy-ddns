@@ -8,7 +8,9 @@ ENV GODADDY_KEY= \
     NAME=@ \
     TTL=600 \
     CHECK_URL=http://whatismyip.akamai.com/ \
-    CRON_TIME="*/5 * * * *"
+    CRON_TIME="*/5 * * * *" \
+    SUCCESS_EXEC="" \
+    FAILED_EXEC=""
 
 WORKDIR /scripts
 
