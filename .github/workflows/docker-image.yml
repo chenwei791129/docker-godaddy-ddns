@@ -1,47 +1,36 @@
 name: Docker Image CI
 
+# The build itself lives in chenwei791129/.github so the pinned action versions
+# are maintained in exactly one place across repositories.
+#
+# Publishes to ghcr.io only. The Docker Hub push was dropped deliberately: its
+# pull-rate and retention limits keep tightening, and this account is
+# standardising on ghcr.io.
 on:
   push:
     branches:
       - 'master'
+  workflow_dispatch:
 
-# Refer to: https://github.com/docker/build-push-action && https://github.com/docker/metadata-action
 jobs:
-  build-multiple-platform:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v6
-        with:
-          images: |
-            ${{ secrets.DOCKER_USER }}/godaddy-ddns
-          tags: |
-            type=semver,pattern={{raw}}
-            type=sha,prefix={{date 'YYYYMMDD'}}-,format=short
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=alpine,enable={{is_default_branch}}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
-        with:
-          platforms: |
-            linux/amd64,linux/arm64
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-      - name: Login to Docker Hub
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-      - name: Build and push
-        uses: docker/build-push-action@v7
-        with:
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            BASE_IMAGE=alpine
-          platforms: |
-            linux/amd64,linux/arm64
+  build-and-push-image:
+    permissions:
+      contents: read
+      packages: write
+    uses: chenwei791129/.github/.github/workflows/build-and-push-image.yml@main
+    with:
+      # ghcr path keeps the short image name this project published under,
+      # rather than the docker- prefixed repository name.
+      image-name: chenwei791129/godaddy-ddns
+      # The shared defaults (branch tag, latest=auto flavor, {{version}} semver)
+      # do not match this project's scheme, so every rule is listed explicitly.
+      enable-branch-tag: false
+      enable-latest-tag: false
+      enable-semver-tags: false
+      additional-tags: |
+        type=semver,pattern={{raw}}
+        type=sha,prefix={{date 'YYYYMMDD'}}-,format=short
+        type=raw,value=latest,enable={{is_default_branch}}
+        type=raw,value=alpine,enable={{is_default_branch}}
+      build-args: |
+        BASE_IMAGE=alpine
