@@ -1,0 +1,33 @@
+name: CI
+
+# Pull request checks. Images are only published by release-please.yml when a
+# release is created; here the image is only built, never pushed.
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    permissions:
+      contents: read
+    uses: chenwei791129/.github/.github/workflows/go-test.yml@main
+    with:
+      test-args: -race ./...
+
+  # Builds the image for both platforms so Dependabot base image and Go bumps
+  # are verified before they are merged. The shared workflow does not log in or
+  # push on pull_request events.
+  image:
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+    uses: chenwei791129/.github/.github/workflows/build-and-push-image.yml@main
+    with:
+      image-name: chenwei791129/godaddy-ddns
+      enable-branch-tag: false
+      enable-latest-tag: false
+      enable-semver-tags: false
