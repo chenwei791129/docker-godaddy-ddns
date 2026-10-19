@@ -1,4 +1,4 @@
-FROM alpine:3.18.2
+FROM alpine:3.24.2
 
 ENV GODADDY_KEY= \
     GODADDY_SECRET= \
