@@ -10,6 +10,11 @@ on:
   push:
     branches:
       - 'master'
+  # Build-check pull requests (e.g. Dependabot base image bumps) without
+  # publishing; the shared workflow only pushes outside pull_request events.
+  pull_request:
+    branches:
+      - 'master'
   workflow_dispatch:
 
 jobs:
@@ -32,5 +37,3 @@ jobs:
         type=sha,prefix={{date 'YYYYMMDD'}}-,format=short
         type=raw,value=latest,enable={{is_default_branch}}
         type=raw,value=alpine,enable={{is_default_branch}}
-      build-args: |
-        BASE_IMAGE=alpine
