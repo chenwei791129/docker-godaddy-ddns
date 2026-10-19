@@ -1,0 +1,46 @@
+name: Release Please
+
+# Opens and maintains the release PR (version bump + CHANGELOG.md) from
+# Conventional Commits on master. Merging it tags vX.Y.Z, creates the GitHub
+# release and publishes the image; only releases publish images.
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release-please:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    uses: chenwei791129/.github/.github/workflows/release-please.yml@main
+    with:
+      release-type: go
+
+  image:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    permissions:
+      contents: read
+      packages: write
+    uses: chenwei791129/.github/.github/workflows/build-and-push-image.yml@main
+    with:
+      image-name: chenwei791129/godaddy-ddns
+      enable-branch-tag: false
+      enable-latest-tag: false
+      enable-semver-tags: false
+      # X.Y.Z, X.Y, X and latest for the release; `alpine` is a deprecated
+      # alias of latest that 2.0.0 stops publishing
+      # (docs/adr/0002-credential-and-api-migration-path.md).
+      additional-tags: |
+        type=semver,pattern={{version}},value=${{ needs.release-please.outputs.tag_name }}
+        type=semver,pattern={{major}}.{{minor}},value=${{ needs.release-please.outputs.tag_name }}
+        type=semver,pattern={{major}},value=${{ needs.release-please.outputs.tag_name }}
+        type=raw,value=latest
+        type=raw,value=alpine
+      # APK_REFRESH changes on every run so the apk upgrade layer is never
+      # reused from the build cache (see Dockerfile).
+      build-args: |
+        VERSION=${{ needs.release-please.outputs.version }}
+        APK_REFRESH=${{ github.run_id }}-${{ github.run_attempt }}
