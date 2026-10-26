@@ -17,7 +17,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 # Alpine rather than scratch: the Success Hook and Failure Hook run shell
 # commands (docs/adr/0001-alpine-base-for-update-hooks.md). Its CA bundle covers
 # the HTTPS calls to GoDaddy and the IP check service.
-FROM alpine:3.24.2
+FROM alpine:3.24.3
 
 # Changes on every CI build (see .github/workflows/release-please.yml) so this
 # layer is never reused from the build cache and gets Alpine's latest fixes.
