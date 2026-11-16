@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/chenwei791129/docker-godaddy-ddns/compare/v1.0.1...v1.0.2) (2026-11-16)
+
+
+### Bug Fixes
+
+* **deps:** bump alpine from 3.24.3 to 3.24.4 ([#14](https://github.com/chenwei791129/docker-godaddy-ddns/issues/14)) ([620fae3](https://github.com/chenwei791129/docker-godaddy-ddns/commit/620fae384ff3af9fffa825e36109bcc9ea3d55a5))
+
 ## [1.0.1](https://github.com/chenwei791129/docker-godaddy-ddns/compare/v1.0.0...v1.0.1) (2026-10-26)
 
 
