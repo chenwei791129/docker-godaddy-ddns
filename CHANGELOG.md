@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/chenwei791129/docker-godaddy-ddns/compare/v1.0.2...v1.0.3) (2026-11-23)
+
+
+### Bug Fixes
+
+* **deps:** bump golang from 1.27.3-alpine to 1.27.4-alpine ([#16](https://github.com/chenwei791129/docker-godaddy-ddns/issues/16)) ([ceeff60](https://github.com/chenwei791129/docker-godaddy-ddns/commit/ceeff608867eb4509cf43d0e35a8d9c4ef4b7f8c))
+
 ## [1.0.2](https://github.com/chenwei791129/docker-godaddy-ddns/compare/v1.0.1...v1.0.2) (2026-11-16)
 
 
